@@ -16,7 +16,7 @@ class Db
         'charset' => 'utf8',
     ];
 
-    private $connection = null; //PDO
+    private $connection = null;
 
     use TSingletone;
 
@@ -35,7 +35,7 @@ class Db
 
     public function lastInsertId()
     {
-        //TODO вернуть id
+        return $this->getConnection()->lastInsertId();
     }
 
     private function prepareDsnString()
@@ -58,8 +58,7 @@ class Db
     public function queryOneObject($sql, $params, $class)
     {
         $STH = $this->query($sql, $params);
-        //TODO сделать чтобы конструктор вызывался до извлечения из БД
-        $STH->setFetchMode(\PDO::FETCH_CLASS, $class);
+        $STH->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $class);
         return $STH->fetch();
     }
 

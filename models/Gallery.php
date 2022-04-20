@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-class Gallery extends Model
+class Gallery extends DBModel
 {
     public $id;
     public $filename;
