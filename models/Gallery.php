@@ -14,7 +14,10 @@ class Gallery extends DBModel
         $this->likes = $likes;
     }
 
-    protected function getTableName()
+    public static function getGallery() {
+        return [];
+    }
+    protected static function getTableName()
     {
         return 'gallery';
     }

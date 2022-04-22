@@ -19,7 +19,7 @@ class Product extends DBModel
         $this->price = $price;
     }
 
-    protected function getTableName()
+    protected static function getTableName()
     {
         return 'products';
     }

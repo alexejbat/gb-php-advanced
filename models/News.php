@@ -16,7 +16,7 @@ class News extends DBModel
         $this->preview = $preview;
     }
 
-    protected function getTableName()
+    protected static function getTableName()
     {
         return 'news';
     }

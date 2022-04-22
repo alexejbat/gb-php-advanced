@@ -9,17 +9,16 @@ class Basket extends DBModel
     public $session_id;
     public $goods_id;
 
-    public function __construct($session_id = null, $goods_id = null)
-    {
-        $this->session_id = $session_id;
-        $this->goods_id = $goods_id;
-    }
+    protected $props = [
+        'session_id' => false,
+        'product_id' => false
+    ];
 
     public static function getBasket() {
-
+        return [];
     }
 
-    protected function getTableName()
+    protected static function getTableName()
     {
         return 'basket';
     }
