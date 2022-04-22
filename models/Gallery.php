@@ -17,7 +17,7 @@ class Gallery extends DBModel
     public static function getGallery() {
         return [];
     }
-    protected function getTableName()
+    protected static function getTableName()
     {
         return 'gallery';
     }

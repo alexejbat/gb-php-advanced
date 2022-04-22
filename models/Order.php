@@ -18,7 +18,7 @@ class Order extends DBModel
         $this->session_id = $session_id;
     }
 
-    protected function getTableName()
+    protected static function getTableName()
     {
         return 'orders';
     }

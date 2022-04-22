@@ -14,7 +14,7 @@ class Feedback extends DBModel
         $this->pass = $pass;
     }
 
-    protected function getTableName()
+    protected static function getTableName()
     {
         return 'feedbacks';
     }

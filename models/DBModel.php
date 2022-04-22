@@ -8,7 +8,6 @@ abstract class DBModel extends Model
 {
     protected abstract static function getTableName();
 
-
     public function insert()
     {
         $params = [];

@@ -18,7 +18,7 @@ class Basket extends DBModel
         return [];
     }
 
-    protected function getTableName()
+    protected static function getTableName()
     {
         return 'basket';
     }
