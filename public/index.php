@@ -8,19 +8,17 @@ require_once realpath("../config/config.php");
 
 spl_autoload_register([new Autoload(), 'loadClass']); // Регистрируем класс и его метод автозагрузки моделей приложения в стеке автозагрузки
 
-$db = new Db();
+$product = new Product('', '1.png', 'Titan', 3600, 'Videocard');
 
-$product = new Product('', '1.png', 'Titan', 3600, 'Videocard».');
-$product->insert();
+$controllerName = $_GET['c'] ?: 'product';
+$actionName = $_GET['a'];
 
-echo $product->getOne(4);
-echo $product->getAll();
-//var_dump($product);
+$controllerClass = CONTROLLER_NAMESPACE . ucfirst($controllerName) . "Controller";
 
-$user = new User($db);
-$user->insert();
-
-echo $user->getOne(1);
-echo $user->getAll();
-//var_dump($user);
+if (class_exists($controllerClass)) {
+    $controller = new $controllerClass(new Render());
+    $controller->runAction($actionName);
+} else {
+    die("Нет такого контроллера");
+}
 

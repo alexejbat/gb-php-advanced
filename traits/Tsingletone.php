@@ -1,14 +1,20 @@
 <?php
 
-$DBH = new PDO("mysql:host=localhost;dbname=shop", 'root', '');
-$DBH->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+namespace app\traits;
 
+trait TSingletone
+{
+    private static $instance = null;
 
-$STH = $DBH->prepare("SELECT * FROM `products` WHERE id = :id");
-$data = ['id' => 1];
-$STH->execute($data);
-var_dump($STH->fetch());
+    private function __construct() {}
+    private function __clone() {}
+    private function __wakeup() {}
 
-$data = ['id' => 2];
-$STH->execute($data);
-var_dump($STH->fetch());
+    public static function getInstance()
+    {
+        if (is_null(static::$instance)) {
+            static::$instance = new static();
+        }
+        return static::$instance;
+    }
+}
