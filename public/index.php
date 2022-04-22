@@ -8,7 +8,7 @@ require_once realpath("../config/config.php");
 
 spl_autoload_register([new Autoload(), 'loadClass']); // Регистрируем класс и его метод автозагрузки моделей приложения в стеке автозагрузки
 
-$product = new Product('', '1.png', 'Titan', 3600, 'Videocard');
+$product = new Product('Titan', 'Videocard', 100000);
 
 $controllerName = $_GET['c'] ?: 'product';
 $actionName = $_GET['a'];
