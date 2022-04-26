@@ -16,7 +16,7 @@ class Db
         'charset' => 'utf8',
     ];
 
-    private $connection = null;
+    private $connection = null; //PDO
 
     use TSingletone;
 
@@ -48,8 +48,8 @@ class Db
         );
     }
 
-    //sql = "SELECT * FROM `products` WHERE id = :id" $params = ['id'=>1]
-    private function query($sql, $params) {
+    private function query($sql, $params)
+    {
         $STH = $this->getConnection()->prepare($sql);
         $STH->execute($params);
         return $STH;
@@ -60,6 +60,13 @@ class Db
         $STH = $this->query($sql, $params);
         $STH->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $class);
         return $STH->fetch();
+    }
+
+    public function queryLimit($sql, $limit) {
+        $STH = $this->getConnection()->prepare($sql);
+        $STH->bindValue(1, $limit, \PDO::PARAM_INT);
+        $STH->execute();
+        return $STH->fetchAll();
     }
 
     public function queryOne($sql, $params = [])
@@ -76,6 +83,5 @@ class Db
     {
         return $this->query($sql, $params)->rowCount();
     }
-
 
 }

@@ -1,5 +1,5 @@
 <?php
-$DBH = new PDO("mysql:host=localhost;dbname=gb_student", 'root', '');
+$DBH = new PDO("mysql:host=localhost;dbname=shop", 'root', '');
 $DBH->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
 
@@ -11,3 +11,5 @@ var_dump($STH->fetch());
 $data = ['id' => 2];
 $STH->execute($data);
 var_dump($STH->fetch());
+
+
