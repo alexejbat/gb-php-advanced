@@ -8,7 +8,7 @@ use app\interfaces\IRender;
 use app\models\Basket;
 use app\models\User;
 
-class Controller
+abstract class Controller
 {
     private $action;
     private $defaultAction = 'index';
