@@ -8,15 +8,25 @@ abstract class DBModel extends Model
 {
     protected abstract static function getTableName();
 
+    public static function getWhere($name, $value) {
+        $tableName = static::getTableName();
+        $sql = "SELECT * FROM {$tableName} WHERE {$name} = :value";
+        return Db::getInstance()->queryOneObject($sql, ['value' => $value], static::class);
+    }
+
+    public static function getCountWhere($name, $value) {
+        $tableName = static::getTableName();
+        $sql = "SELECT count(id) as count FROM {$tableName} WHERE {$name} = :value";
+        return Db::getInstance()->queryOne($sql, ['value' => $value])['count'];
+    }
 
     public function insert()
     {
         $params = [];
         $columns = [];
 
-        foreach ($this as $key => $value) {
-            if ($key == 'id') continue;
-            $params[":" . $key] = $value;
+        foreach ($this->props as $key => $value) {
+            $params[":" . $key] = $this->$key;
             $columns[] = $key;
         }
 
@@ -36,12 +46,32 @@ abstract class DBModel extends Model
 
     public function update()
     {
+        $params = [];
+        $colums = [];
 
+        $tableName = static::getTableName();
+
+        foreach ($this->props as $key => $value) {
+            if (!$value) continue;
+            $params["{$key}"] = $this->$key;
+            $colums[] .= "`{$key}` = :{$key}";
+            $this->props[$key] = false;
+        }
+        $colums = implode(", ", $colums);
+        $params['id'] = $this->id;
+
+        $sql = "UPDATE `{$tableName}` SET {$colums} WHERE `id` = :id";
+        Db::getInstance()->execute($sql, $params);
+        return $this;
     }
 
     public function save()
     {
-
+        if (is_null($this->id)) {
+            $this->insert();
+        } else {
+            $this->update();
+        }
     }
 
     public function delete()
@@ -50,7 +80,6 @@ abstract class DBModel extends Model
         $sql = "DELETE FROM $tableName WHERE id = :id";
         return Db::getInstance()->execute($sql, ['id' => $this->id]);
     }
-
 
 
     public static function getOne($id)
@@ -68,7 +97,8 @@ abstract class DBModel extends Model
         return Db::getInstance()->queryAll($sql);
     }
 
-    public static function getLimit($limit) {
+    public static function getLimit($limit)
+    {
         $tableName = static::getTableName();
         $sql = "SELECT * FROM {$tableName} LIMIT 0, ?";
         return Db::getInstance()->queryLimit($sql, $limit);
