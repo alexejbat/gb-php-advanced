@@ -14,7 +14,6 @@ abstract class Controller
     private $defaultAction = 'index';
     private $render;
 
-
     public function __construct(IRender $render)
     {
         $this->render = $render;

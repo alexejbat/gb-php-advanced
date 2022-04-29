@@ -1,6 +1,6 @@
 <?php
-
 namespace app\models;
+
 
 class Product extends DBModel
 {
@@ -11,6 +11,7 @@ class Product extends DBModel
     protected $price;
 
     protected $props = [
+        'image' => false,
         'name' => false,
         'description' => false,
         'price' => false
