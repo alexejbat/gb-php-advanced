@@ -1,11 +1,10 @@
 <?php
 
 // Создаем пространство имен класса Model
-namespace app\models; // для доступа к классу Db
+namespace app\models;
 
-use app\interfaces\IModel; //  для доступа к классу IModels
 
-abstract class Model implements IModel
+abstract class Model
 {
     protected $props = [];
 

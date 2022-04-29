@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\models\User;
+use app\models\repositories\UserRepository;
 use app\engine\Request;
 
 class AuthController extends Controller
@@ -10,7 +10,7 @@ class AuthController extends Controller
     public function actionLogin() {
         $login = (new Request())->getParams()['login'];
         $pass = (new Request())->getParams()['pass'];
-        if (User::Auth($login, $pass)) {
+        if ((new UserRepository())->Auth($login, $pass)) {
             header("Location: /");
             die();
         } else {

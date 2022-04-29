@@ -2,29 +2,30 @@
 
 session_start();
 
-use app\engine\Autoload;
-use app\models\{Product, User};
 use app\engine\Render;
 use app\engine\Request;
 
-include "../engine/Autoload.php";
 include "../config/config.php";
-
-spl_autoload_register([new Autoload(), 'loadClass']);
 require_once '../vendor/autoload.php';
 
-$request = new Request();
+try {
+    $request = new Request();
 
-$controllerName = $request->getControllerName() ?: 'product';
-$actionName = $request->getActionName();
+    $controllerName = $request->getControllerName() ?: 'product';
+    $actionName = $request->getActionName();
 
-$controllerClass = CONTROLLER_NAMESPACE . ucfirst($controllerName) . "Controller";
+    $controllerClass = CONTROLLER_NAMESPACE . ucfirst($controllerName) . "Controller";
 
-if (class_exists($controllerClass)) {
-    $controller = new $controllerClass(new Render());
-    $controller->runAction($actionName);
-} else {
-    die("Нет такого контроллера");
+    if (class_exists($controllerClass)) {
+        $controller = new $controllerClass(new Render());
+        $controller->runAction($actionName);
+    } else {
+        die("Нет такого контроллера");
+    }
+} catch (PDOException $exception) {
+
+} catch (Exception $exception) {
+
 }
 
 

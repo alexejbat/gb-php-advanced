@@ -1,8 +1,9 @@
 <?php
-namespace app\models;
+namespace app\models\entities;
 
+use app\models\Model;
 
-class Product extends DBModel
+class Product extends Model
 {
     protected $id;
     protected $image;
@@ -17,18 +18,11 @@ class Product extends DBModel
         'price' => false
     ];
 
-
     public function __construct($image = null, $name = null, $description = null, $price = null)
     {
         $this->image = $image;
         $this->name = $name;
         $this->description = $description;
         $this->price = $price;
-    }
-
-
-    protected static function getTableName()
-    {
-        return 'products';
     }
 }
