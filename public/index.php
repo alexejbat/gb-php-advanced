@@ -2,27 +2,13 @@
 
 session_start();
 
-use app\engine\Render;
-use app\engine\Request;
+use app\engine\App;
 
 require_once '../vendor/autoload.php';
-include "../config/config.php";
+$config = include "../config/config.php";
 
-try
-{
-    $request = new Request();
-
-    $controllerName = $request->getControllerName() ?: 'product';
-    $actionName = $request->getActionName();
-
-    $controllerClass = CONTROLLER_NAMESPACE . ucfirst($controllerName) . "Controller";
-
-    if (class_exists($controllerClass)) {
-        $controller = new $controllerClass(new Render());
-        $controller->runAction($actionName);
-    } else {
-        die("Нет такого контроллера");
-    }
+try {
+    App::call()->run($config);
 } catch (PDOException $exception) {
     var_dump($exception->getMessage());
 } catch (Exception $exception) {

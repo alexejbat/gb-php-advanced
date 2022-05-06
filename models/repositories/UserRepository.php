@@ -6,6 +6,7 @@ namespace app\models\repositories;
 use app\engine\Session;
 use app\models\entities\User;
 use app\models\Repository;
+use app\engine\App;
 
 class UserRepository extends Repository
 {
@@ -13,8 +14,7 @@ class UserRepository extends Repository
         $user = $this->getWhere('login', $login);
 
         if ($user != false && password_verify($pass, $user->pass)) {
-            $session = new Session();
-            $session->set('login', $login);
+            App::call()->session->set('login', $login);
             return true;
         }
         return false;
@@ -22,6 +22,10 @@ class UserRepository extends Repository
 
     public function isAuth() {
         return isset($_SESSION['login']);
+    }
+
+    public function isAdmin() {
+        return $_SESSION['login'] == 'admin';
     }
 
     public function getName() {
