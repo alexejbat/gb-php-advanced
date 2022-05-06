@@ -1,26 +1,17 @@
 <?php
 
-use app\models\{Basket, Feedback, Gallery, News, Order, Product, User};
-use app\engine\{Autoload, Db};
+session_start();
 
-require_once realpath ("../engine/Autoload.php"); // Подключаем класс с методами автозагрузки моделей приложения
-require_once realpath("../config/config.php");
+use app\engine\App;
 
-spl_autoload_register([new Autoload(), 'loadClass']); // Регистрируем класс и его метод автозагрузки моделей приложения в стеке автозагрузки
+require_once '../vendor/autoload.php';
+$config = include "../config/config.php";
 
-$db = new Db();
-
-$product = new Product('', '1.png', 'Titan', 3600, 'Videocard».');
-$product->insert();
-
-echo $product->getOne(4);
-echo $product->getAll();
-//var_dump($product);
-
-$user = new User($db);
-$user->insert();
-
-echo $user->getOne(1);
-echo $user->getAll();
-//var_dump($user);
+try {
+    App::call()->run($config);
+} catch (PDOException $exception) {
+    var_dump($exception->getMessage());
+} catch (Exception $exception) {
+    var_dump($exception);
+}
 

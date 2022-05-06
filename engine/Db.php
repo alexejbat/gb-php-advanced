@@ -7,18 +7,19 @@ use app\traits\TSingletone;
 
 class Db
 {
-    private $config = [
-        'driver' => 'mysql',
-        'host' => 'localhost:3306',
-        'login' => 'root',
-        'password' => '',
-        'database' => 'gb_student',
-        'charset' => 'utf8',
-    ];
+    private $config;
 
-    private $connection = null;
+    public function __construct($driver = null, $host = null, $login = null, $password = null, $database = null, $charset = "utf8")
+    {
+        $this->config['driver'] = $driver;
+        $this->config['host'] = $host;
+        $this->config['login'] = $login;
+        $this->config['password'] = $password;
+        $this->config['database'] = $database;
+        $this->config['charset'] = $charset;
+    }
 
-    use TSingletone;
+    private $connection = null; //PDO
 
     private function getConnection()
     {
@@ -48,8 +49,8 @@ class Db
         );
     }
 
-    //sql = "SELECT * FROM `products` WHERE id = :id" $params = ['id'=>1]
-    private function query($sql, $params) {
+    private function query($sql, $params)
+    {
         $STH = $this->getConnection()->prepare($sql);
         $STH->execute($params);
         return $STH;
@@ -59,7 +60,18 @@ class Db
     {
         $STH = $this->query($sql, $params);
         $STH->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $class);
-        return $STH->fetch();
+        $obj = $STH->fetch();
+        if (!$obj) {
+            throw new \Exception("Продукт не найден", 404);
+        }
+        return $obj;
+    }
+
+    public function queryLimit($sql, $limit) {
+        $STH = $this->getConnection()->prepare($sql);
+        $STH->bindValue(1, $limit, \PDO::PARAM_INT);
+        $STH->execute();
+        return $STH->fetchAll();
     }
 
     public function queryOne($sql, $params = [])
@@ -76,6 +88,5 @@ class Db
     {
         return $this->query($sql, $params)->rowCount();
     }
-
 
 }
