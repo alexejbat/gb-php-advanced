@@ -1,26 +1,31 @@
 <?php
 
-use app\models\{Basket, Feedback, Gallery, News, Order, Product, User};
-use app\engine\{Autoload, Db};
+session_start();
 
-require_once realpath ("../engine/Autoload.php"); // Подключаем класс с методами автозагрузки моделей приложения
-require_once realpath("../config/config.php");
+use app\engine\Render;
+use app\engine\Request;
 
-spl_autoload_register([new Autoload(), 'loadClass']); // Регистрируем класс и его метод автозагрузки моделей приложения в стеке автозагрузки
+require_once '../vendor/autoload.php';
+include "../config/config.php";
 
-$db = new Db();
+try
+{
+    $request = new Request();
 
-$product = new Product('', '1.png', 'Titan', 3600, 'Videocard».');
-$product->insert();
+    $controllerName = $request->getControllerName() ?: 'product';
+    $actionName = $request->getActionName();
 
-echo $product->getOne(4);
-echo $product->getAll();
-//var_dump($product);
+    $controllerClass = CONTROLLER_NAMESPACE . ucfirst($controllerName) . "Controller";
 
-$user = new User($db);
-$user->insert();
-
-echo $user->getOne(1);
-echo $user->getAll();
-//var_dump($user);
+    if (class_exists($controllerClass)) {
+        $controller = new $controllerClass(new Render());
+        $controller->runAction($actionName);
+    } else {
+        die("Нет такого контроллера");
+    }
+} catch (PDOException $exception) {
+    var_dump($exception->getMessage());
+} catch (Exception $exception) {
+    var_dump($exception);
+}
 
