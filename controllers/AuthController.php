@@ -7,6 +7,7 @@ use app\engine\Request;
 
 class AuthController extends Controller
 {
+    //action="/auth/login"
     public function actionLogin() {
         $login = (new Request())->getParams()['login'];
         $pass = (new Request())->getParams()['pass'];
@@ -20,6 +21,7 @@ class AuthController extends Controller
 
     public function actionLogout()
     {
+        //TODO Переписать на Session
         session_regenerate_id();
         session_destroy();
         header("Location: /");

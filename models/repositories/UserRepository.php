@@ -2,6 +2,7 @@
 
 namespace app\models\repositories;
 
+
 use app\engine\Session;
 use app\models\entities\User;
 use app\models\Repository;
@@ -19,11 +20,11 @@ class UserRepository extends Repository
         return false;
     }
 
-    public static function isAuth() {
+    public function isAuth() {
         return isset($_SESSION['login']);
     }
 
-    public static function getName() {
+    public function getName() {
         return $_SESSION['login'];
     }
 
@@ -35,4 +36,5 @@ class UserRepository extends Repository
     {
         return 'users';
     }
+
 }

@@ -35,8 +35,11 @@ abstract class Repository implements IRepository
         $columns = implode(', ', $columns);
         $values = implode(', ', array_keys($params));
 
+
         $tableName = $this->getTableName();
+
         $sql = "INSERT INTO `{$tableName}`($columns) VALUES ($values)";
+
 
         Db::getInstance()->execute($sql, $params);
         $entity->id = Db::getInstance()->lastInsertId();
@@ -80,11 +83,11 @@ abstract class Repository implements IRepository
         return Db::getInstance()->execute($sql, ['id' => $entity->id]);
     }
 
+
     public function getOne($id)
     {
         $tableName = $this->getTableName();
         $sql = "SELECT * FROM {$tableName} WHERE id = :id";
-        //  return Db::getInstance()->queryOne($sql, ['id' => $id]);
         return Db::getInstance()->queryOneObject($sql, ['id' => $id], $this->getEntityClass());
     }
 

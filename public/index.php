@@ -5,10 +5,11 @@ session_start();
 use app\engine\Render;
 use app\engine\Request;
 
-include "../config/config.php";
 require_once '../vendor/autoload.php';
+include "../config/config.php";
 
-try {
+try
+{
     $request = new Request();
 
     $controllerName = $request->getControllerName() ?: 'product';
@@ -23,10 +24,8 @@ try {
         die("Нет такого контроллера");
     }
 } catch (PDOException $exception) {
-
+    var_dump($exception->getMessage());
 } catch (Exception $exception) {
-
+    var_dump($exception);
 }
-
-
 

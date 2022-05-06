@@ -22,10 +22,8 @@ class BasketController extends Controller
     {
         $id = (new Request())->getParams()['id'];
         $session_id = session_id();
-
         $basket = new Basket($session_id, $id);
         (new BasketRepository())->save($basket);
-
         $response = [
             'status' => 'ok',
             'count' => (new BasketRepository())->getCountWhere('session_id', $session_id)
@@ -39,7 +37,6 @@ class BasketController extends Controller
     {
         $id = (new Request())->getParams()['id'];
         $session_id = (new Session())->getId();
-
         $error = "ok";
         $basket = (new BasketRepository())->getOne($id);
 

@@ -1,8 +1,7 @@
 <?php
 
 // Создаем пространство имен класса Model
-namespace app\models;
-
+namespace app\models; // для доступа к классу Db
 
 abstract class Model
 {

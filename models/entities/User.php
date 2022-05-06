@@ -2,6 +2,7 @@
 
 namespace app\models\entities;
 
+
 use app\models\Model;
 
 class User extends Model

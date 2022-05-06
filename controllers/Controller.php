@@ -38,7 +38,6 @@ abstract class Controller
             ]),
             'content' => $this->renderTemplate($template, $params)
         ]);
-
     }
 
     public function renderTemplate($template, $params = [])

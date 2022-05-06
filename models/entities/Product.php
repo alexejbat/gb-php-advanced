@@ -1,6 +1,7 @@
 <?php
 namespace app\models\entities;
 
+
 use app\models\Model;
 
 class Product extends Model
@@ -17,6 +18,7 @@ class Product extends Model
         'description' => false,
         'price' => false
     ];
+
 
     public function __construct($image = null, $name = null, $description = null, $price = null)
     {
